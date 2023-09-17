@@ -21,7 +21,7 @@ scheduler.Start();
 
 void OnFetched(IEnumerable<Article> articles)
 {
-    foreach(var article in articles)
+    foreach (var article in articles)
     {
         Console.WriteLine(article);
     }

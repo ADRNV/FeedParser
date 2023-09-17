@@ -9,10 +9,10 @@ namespace FeedParser.Parsers.TProger
 
         public TProgerParser(IConfiguration configuration) : base(configuration)
         {
-            
+
         }
 
-        public override string Url 
+        public override string Url
         {
             get => _url;
 
@@ -27,8 +27,9 @@ namespace FeedParser.Parsers.TProger
             var document = await context.OpenAsync(Url);
 
             var articles = document.GetElementsByClassName("tp-post-card__link")
-                .Select(c => new Article { 
-                    Header = c.TextContent, 
+                .Select(c => new Article
+                {
+                    Header = c.TextContent,
                     Link = c.GetAttribute("href")!
                 }).AsEnumerable();
 

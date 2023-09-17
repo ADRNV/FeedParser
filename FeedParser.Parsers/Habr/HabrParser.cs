@@ -11,7 +11,7 @@ namespace FeedParser.Parsers.Habr
 
         public HabrParser(IConfiguration configuration) : base(configuration)
         {
-            
+
         }
         public override string Url
         {

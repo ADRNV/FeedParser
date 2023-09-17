@@ -1,9 +1,7 @@
 ﻿using AngleSharp;
-using FeedParser.Core;
 using FeedParser.Core.Models;
 using FeedParser.Parsers.Habr;
 using FeedParser.Parsers.TProger;
-using System.Security.Cryptography;
 
 namespace FeedParser.Parsers
 {

@@ -52,7 +52,7 @@ namespace FeedParser.Parsers.Schedulers
 
             OnFetched.Invoke(feed);
 
-            return feed; 
+            return feed;
         }
 
         private async Task<Stream> WriteAsStream(IEnumerable<Article> articles)

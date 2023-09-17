@@ -7,7 +7,7 @@ namespace FeedParser.Parsers.Habr
     {
         public override string MapToString(string url, ArticlesFilters.PerTime perTime)
         {
-            switch(perTime)
+            switch (perTime)
             {
                 case ArticlesFilters.PerTime.Day:
                     return url + "daily/";
