@@ -1,7 +1,5 @@
-﻿using AngleSharp;
-using FeedParser.Core;
+﻿using FeedParser.Core;
 using FeedParser.Core.Models;
-using FeedParser.Core.Schedulers;
 using FeedParser.Parsers;
 using FeedParser.Parsers.Habr;
 using FeedParser.Parsers.TProger;
@@ -29,8 +27,9 @@ namespace FeedParser.Extensions
 
         public static IHostBuilder ConfigureParsers(this IHostBuilder hostBuilder)
         {
-            hostBuilder.ConfigureServices(c => {
-                c.AddSingleton<IParser, HabrParser>(c => 
+            hostBuilder.ConfigureServices(c =>
+            {
+                c.AddSingleton<IParser, HabrParser>(c =>
                 {
                     var habrParser = new ParserBuilder()
                         .FromHabr()
@@ -55,13 +54,13 @@ namespace FeedParser.Extensions
 
         public static IHostBuilder ConfigureScheduler(this IHostBuilder hostBuilder)
         {
-            hostBuilder.ConfigureServices(c => 
+            hostBuilder.ConfigureServices(c =>
             {
                 c.AddScoped<IUpdateHandler<IEnumerable<Article>>>((s) => new UpdateHandler());
 
                 c.AddHostedService<UpdateScheduler>(c =>
                 {
-                    var updateScheduler = new UpdateScheduler(TimeSpan.FromSeconds(5), 
+                    var updateScheduler = new UpdateScheduler(TimeSpan.FromSeconds(5),
                         c.GetServices<IParser>(),
                         c.GetRequiredService<IUpdateHandler<IEnumerable<Article>>>()
                         );

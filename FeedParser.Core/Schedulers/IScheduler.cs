@@ -1,6 +1,4 @@
-﻿using FeedParser.Core.Models;
-
-namespace FeedParser.Core.Schedulers
+﻿namespace FeedParser.Core.Schedulers
 {
     public interface IScheduler
     {

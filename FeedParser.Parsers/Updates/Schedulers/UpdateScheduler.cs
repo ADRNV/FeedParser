@@ -3,8 +3,6 @@ using FeedParser.Core.Models;
 using FeedParser.Core.Schedulers;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using System.Text;
 using System.Timers;
 using Timer = System.Timers.Timer;
 
