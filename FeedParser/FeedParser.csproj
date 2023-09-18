@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FeedParser.Core\FeedParser.Core.csproj" />
+    <ProjectReference Include="..\FeedParser.Data\FeedParser.Data.csproj" />
     <ProjectReference Include="..\FeedParser.Parsers\FeedParser.Parsers.csproj" />
   </ItemGroup>
 

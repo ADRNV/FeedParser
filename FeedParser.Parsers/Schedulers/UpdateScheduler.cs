@@ -13,15 +13,16 @@ namespace FeedParser.Parsers.Schedulers
 
         private Timer _timer;
 
-        private event Action<IEnumerable<Article>> OnFetched;
+        private readonly IUpdateHandler<IEnumerable<Article>> _updateHandler;
 
-        public UpdateScheduler(TimeSpan updateInterval, IEnumerable<IParser> parsers, Action<IEnumerable<Article>> onFetched)
+        public UpdateScheduler(TimeSpan updateInterval, IEnumerable<IParser> parsers, IUpdateHandler<IEnumerable<Article>> updateHandler)
         {
             _parsers = parsers;
 
             _timer = new Timer(updateInterval);
 
-            OnFetched = onFetched;
+            _updateHandler = updateHandler;
+
         }
 
         public void Start()
@@ -50,22 +51,9 @@ namespace FeedParser.Parsers.Schedulers
                 feed.AddRange(await parser.GetFeedLinks());
             }
 
-            OnFetched.Invoke(feed);
+            _updateHandler.OnUpdate(feed);
 
             return feed;
-        }
-
-        private async Task<Stream> WriteAsStream(IEnumerable<Article> articles)
-        {
-            var stream = new MemoryStream();
-
-            var sw = new StreamWriter(stream, Encoding.UTF8);
-
-            var articlesJson = JsonConvert.SerializeObject(articles);
-
-            await sw.WriteLineAsync(articlesJson);
-
-            return stream;
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using FeedParser.Core;
 using FeedParser.Core.Models;
+using FeedParser.Parsers.Handlers;
 using FeedParser.Parsers;
 using FeedParser.Parsers.Habr;
 using FeedParser.Parsers.Schedulers;
@@ -15,16 +16,8 @@ IParser tprogerParser = new ParserBuilder()
 
 var parsers = new List<IParser>() { habrParser, tprogerParser };
 
-var scheduler = new UpdateScheduler(TimeSpan.FromSeconds(5), parsers.AsEnumerable(), OnFetched);
+var scheduler = new UpdateScheduler(TimeSpan.FromSeconds(5), parsers.AsEnumerable(), new UpdateHandler());
 
 scheduler.Start();
-
-void OnFetched(IEnumerable<Article> articles)
-{
-    foreach (var article in articles)
-    {
-        Console.WriteLine(article);
-    }
-}
 
 Console.ReadLine();
