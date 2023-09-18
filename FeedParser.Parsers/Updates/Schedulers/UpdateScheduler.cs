@@ -1,13 +1,16 @@
 ﻿using FeedParser.Core;
 using FeedParser.Core.Models;
+using FeedParser.Core.Schedulers;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System.Text;
 using System.Timers;
 using Timer = System.Timers.Timer;
 
-namespace FeedParser.Parsers.Schedulers
+namespace FeedParser.Parsers.Updates.Schedulers
 {
-    public class UpdateScheduler
+    public class UpdateScheduler : IScheduler, IHostedService
     {
         private IEnumerable<IParser> _parsers;
 
@@ -15,7 +18,9 @@ namespace FeedParser.Parsers.Schedulers
 
         private readonly IUpdateHandler<IEnumerable<Article>> _updateHandler;
 
-        public UpdateScheduler(TimeSpan updateInterval, IEnumerable<IParser> parsers, IUpdateHandler<IEnumerable<Article>> updateHandler)
+        private readonly ILogger _logger;
+
+        public UpdateScheduler(TimeSpan updateInterval, IEnumerable<IParser> parsers, IUpdateHandler<IEnumerable<Article>> updateHandler, ILogger logger = null)
         {
             _parsers = parsers;
 
@@ -51,9 +56,27 @@ namespace FeedParser.Parsers.Schedulers
                 feed.AddRange(await parser.GetFeedLinks());
             }
 
-            _updateHandler.OnUpdate(feed);
+            await _updateHandler.OnUpdate(feed);
+
+            _logger?.LogInformation($"Take {feed.Count} updates");
 
             return feed;
+        }
+
+        public async Task StartAsync(CancellationToken cancellationToken)
+        {
+            _timer.Elapsed += Timer_Elapsed;
+
+            await Task.Run(() => _timer.Start(), cancellationToken);
+
+            _logger?.LogCritical("Start service");
+        }
+
+        public Task StopAsync(CancellationToken cancellationToken)
+        {
+            _timer.Stop();
+
+            return Task.CompletedTask;
         }
     }
 }
