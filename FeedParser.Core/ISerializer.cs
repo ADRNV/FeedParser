@@ -1,9 +1,9 @@
 ﻿namespace FeedParser.Core
 {
-    public interface ISerializer
+    public interface ISerializer<T>
     {
-        public string Serialize(object obj);
+        public string Serialize(T obj, TextWriter textWriter);
 
-        public object Deserialize(object obj);
+        public object Deserialize(T obj, TextReader textReader);
     }
 }
