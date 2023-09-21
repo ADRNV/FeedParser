@@ -29,7 +29,7 @@ namespace FeedParser.Parsers.Updates.Handlers
             {
                 _logger.LogInformation($"Article from {a.Link}:{a.Header}");
 
-                foreach(var c in a.Content)
+                foreach (var c in a.Content)
                 {
                     _logger.LogInformation($"Content:{c}");
                 }

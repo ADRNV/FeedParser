@@ -2,7 +2,6 @@
 using AngleSharp.Dom;
 using FeedParser.Core.Models;
 using Microsoft.Extensions.Logging;
-using System.Diagnostics;
 
 namespace FeedParser.Parsers.Habr
 {
@@ -44,15 +43,15 @@ namespace FeedParser.Parsers.Habr
 
         public override async IAsyncEnumerable<Article> ParseRoot(IEnumerable<Article> articles)
         {
-            
-           foreach(var article in articles)
-           {
+
+            foreach (var article in articles)
+            {
                 IDocument document = await context.OpenAsync("https://habr.com/" + article.Link);
 
                 var readynArticle = await ParseArticleContent(document, article);
 
                 yield return readynArticle;
-           }
+            }
         }
 
         private Task<Article> ParseArticleContent(IDocument document, Article article)
@@ -67,7 +66,7 @@ namespace FeedParser.Parsers.Habr
                 {
                     article.Content.Add(s);
                 });
-                
+
             _logger?.LogInformation($"Find text {dirtyContent.Count()} parts");
 
             return Task.FromResult(article);

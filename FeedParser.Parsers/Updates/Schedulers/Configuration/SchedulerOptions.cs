@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.Options;
-
-namespace FeedParser.Parsers.Updates.Schedulers.Configuration
+﻿namespace FeedParser.Parsers.Updates.Schedulers.Configuration
 {
     public class SchedulerOptions
     {

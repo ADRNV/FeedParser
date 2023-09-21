@@ -24,7 +24,7 @@ namespace FeedParser.Extensions
                 configuration.AddConsole();
             });
 
-           
+
             return hostBuilder;
         }
 
@@ -61,14 +61,14 @@ namespace FeedParser.Extensions
             {
                 c.AddTransient<IUpdateHandler<IEnumerable<Article>>>(c =>
                 {
-                   var updateHandler = new UpdateHandler(c.GetServices<IParser>(), 
-                        c.GetService<ILogger<UpdateHandler>>());
+                    var updateHandler = new UpdateHandler(c.GetServices<IParser>(),
+                         c.GetService<ILogger<UpdateHandler>>());
 
                     return updateHandler;
                 });
 
-                c.AddSingleton<SchedulerOptions>(i => new SchedulerOptions 
-                { 
+                c.AddSingleton<SchedulerOptions>(i => new SchedulerOptions
+                {
                     UpdatesInterval = TimeSpan.FromSeconds(5)
                 });
 
