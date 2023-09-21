@@ -6,4 +6,6 @@ var host = Host.CreateDefaultBuilder()
      .ConfigureParsers()
      .ConfigureScheduler();
 
+await host.RunConsoleAsync();
+
 host.Start();
