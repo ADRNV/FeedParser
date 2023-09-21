@@ -1,6 +1,7 @@
 ﻿using FeedParser.Core;
 using FeedParser.Core.Models;
 using FeedParser.Core.Schedulers;
+using FeedParser.Parsers.Updates.Schedulers.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System.Timers;
@@ -16,16 +17,17 @@ namespace FeedParser.Parsers.Updates.Schedulers
 
         private readonly IUpdateHandler<IEnumerable<Article>> _updateHandler;
 
-        private readonly ILogger _logger;
+        private readonly ILogger<UpdateScheduler> _logger;
 
-        public UpdateScheduler(TimeSpan updateInterval, IEnumerable<IParser> parsers, IUpdateHandler<IEnumerable<Article>> updateHandler, ILogger logger = null)
+        public UpdateScheduler(SchedulerOptions options, IEnumerable<IParser> parsers, IUpdateHandler<IEnumerable<Article>> updateHandler, ILogger<UpdateScheduler> logger)
         {
             _parsers = parsers;
 
-            _timer = new Timer(updateInterval);
+            _timer = new Timer(options.UpdatesInterval);
 
             _updateHandler = updateHandler;
 
+            _logger = logger;
         }
 
         public void Start()

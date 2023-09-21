@@ -5,6 +5,7 @@ using FeedParser.Parsers.Habr;
 using FeedParser.Parsers.TProger;
 using FeedParser.Parsers.Updates.Handlers;
 using FeedParser.Parsers.Updates.Schedulers;
+using FeedParser.Parsers.Updates.Schedulers.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -17,11 +18,13 @@ namespace FeedParser.Extensions
         {
             hostBuilder.ConfigureLogging((_, configuration) =>
             {
-                configuration.AddFilter("Microsoft.Hosting.Lifetime", LogLevel.Warning);
+                configuration.ClearProviders();
+                configuration.AddFilter("Microsoft.Hosting.Lifetime", LogLevel.Information);
                 configuration.AddFilter(x => x == LogLevel.Information);
                 configuration.AddConsole();
             });
 
+           
             return hostBuilder;
         }
 
@@ -29,7 +32,7 @@ namespace FeedParser.Extensions
         {
             hostBuilder.ConfigureServices(c =>
             {
-                c.AddSingleton<IParser, HabrParser>(c =>
+                c.AddTransient<IParser, HabrParser>(c =>
                 {
                     var habrParser = new ParserBuilder()
                         .FromHabr()
@@ -39,7 +42,7 @@ namespace FeedParser.Extensions
                     return (HabrParser)habrParser;
                 });
 
-                c.AddSingleton<IParser, TProgerParser>(c =>
+                c.AddTransient<IParser, TProgerParser>(c =>
                 {
                     var tProgerParser = new ParserBuilder()
                         .FromTProger()
@@ -56,17 +59,14 @@ namespace FeedParser.Extensions
         {
             hostBuilder.ConfigureServices(c =>
             {
-                c.AddScoped<IUpdateHandler<IEnumerable<Article>>>((s) => new UpdateHandler());
+                c.AddTransient<IUpdateHandler<IEnumerable<Article>>>((s) => new UpdateHandler());
 
-                c.AddHostedService<UpdateScheduler>(c =>
-                {
-                    var updateScheduler = new UpdateScheduler(TimeSpan.FromSeconds(5),
-                        c.GetServices<IParser>(),
-                        c.GetRequiredService<IUpdateHandler<IEnumerable<Article>>>()
-                        );
-
-                    return updateScheduler;
+                c.AddSingleton<SchedulerOptions>(i => new SchedulerOptions 
+                { 
+                    UpdatesInterval = TimeSpan.FromSeconds(5)
                 });
+
+                c.AddHostedService<UpdateScheduler>();
             });
 
             return hostBuilder;
