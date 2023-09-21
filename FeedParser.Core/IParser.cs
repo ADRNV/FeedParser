@@ -6,7 +6,7 @@ namespace FeedParser.Core
     {
         string Url { get; }
 
-        Task<IEnumerable<Article>> ParseRoot();
+        IAsyncEnumerable<Article> ParseRoot(IEnumerable<Article> articles);
 
         Task<IEnumerable<Article>> GetFeedLinks();
     }

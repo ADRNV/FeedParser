@@ -36,7 +36,7 @@ namespace FeedParser.Parsers.TProger
             return articles;
         }
 
-        public override Task<IEnumerable<Article>> ParseRoot()
+        public override IAsyncEnumerable<Article> ParseRoot(IEnumerable<Article> articles)
         {
             throw new NotImplementedException();
         }

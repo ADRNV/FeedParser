@@ -21,6 +21,6 @@ namespace FeedParser.Parsers
 
         public abstract Task<IEnumerable<Article>> GetFeedLinks();
 
-        public abstract Task<IEnumerable<Article>> ParseRoot();
+        public abstract IAsyncEnumerable<Article> ParseRoot(IEnumerable<Article> articles);
     }
 }

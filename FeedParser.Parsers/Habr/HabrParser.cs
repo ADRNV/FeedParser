@@ -1,6 +1,7 @@
 ﻿using AngleSharp;
 using AngleSharp.Dom;
 using FeedParser.Core.Models;
+using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 
 namespace FeedParser.Parsers.Habr
@@ -9,9 +10,11 @@ namespace FeedParser.Parsers.Habr
     {
         private string _url = "https://habr.com/ru/articles/top/";
 
-        public HabrParser(IConfiguration configuration) : base(configuration)
-        {
+        private readonly ILogger<HabrParser> _logger;
 
+        public HabrParser(IConfiguration configuration, ILogger<HabrParser> logger = null) : base(configuration)
+        {
+            _logger = logger;
         }
         public override string Url
         {
@@ -36,14 +39,38 @@ namespace FeedParser.Parsers.Habr
 
                 }).AsEnumerable();
 
-            Debug.WriteLine(links.Count());
-
             return links;
         }
 
-        public override Task<IEnumerable<Article>> ParseRoot()
+        public override async IAsyncEnumerable<Article> ParseRoot(IEnumerable<Article> articles)
         {
-            throw new NotImplementedException();
+            
+           foreach(var article in articles)
+           {
+                IDocument document = await context.OpenAsync("https://habr.com/" + article.Link);
+
+                var readynArticle = await ParseArticleContent(document, article);
+
+                yield return readynArticle;
+           }
+        }
+
+        private Task<Article> ParseArticleContent(IDocument document, Article article)
+        {
+            var dirtyContent = document.All
+                .Where(c => c.ClassName == "tm-article-body")
+                .Where(c => c.Id == "post-content-body")
+                .Select(c => c.OuterHtml);
+
+            dirtyContent.ToList()
+                .ForEach(s =>
+                {
+                    article.Content.Add(s);
+                });
+                
+            _logger?.LogInformation($"Find text {dirtyContent.Count()} parts");
+
+            return Task.FromResult(article);
         }
     }
 }

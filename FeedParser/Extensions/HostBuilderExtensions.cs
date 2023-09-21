@@ -59,7 +59,13 @@ namespace FeedParser.Extensions
         {
             hostBuilder.ConfigureServices(c =>
             {
-                c.AddTransient<IUpdateHandler<IEnumerable<Article>>>((s) => new UpdateHandler());
+                c.AddTransient<IUpdateHandler<IEnumerable<Article>>>(c =>
+                {
+                   var updateHandler = new UpdateHandler(c.GetServices<IParser>(), 
+                        c.GetService<ILogger<UpdateHandler>>());
+
+                    return updateHandler;
+                });
 
                 c.AddSingleton<SchedulerOptions>(i => new SchedulerOptions 
                 { 
