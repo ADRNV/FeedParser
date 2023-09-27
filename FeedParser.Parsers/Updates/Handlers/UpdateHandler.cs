@@ -1,6 +1,7 @@
 ﻿using FeedParser.Core;
 using FeedParser.Core.Models;
 using FeedParser.Parsers.Habr;
+using FeedParser.Parsers.TProger;
 using Microsoft.Extensions.Logging;
 
 namespace FeedParser.Parsers.Updates.Handlers
@@ -20,10 +21,10 @@ namespace FeedParser.Parsers.Updates.Handlers
 
         public async Task OnUpdate(IEnumerable<Article> update)
         {
-            var habrsParser = _parsers.OfType<HabrParser>()
+            var tprogerParser = _parsers.OfType<TProgerParser>()
                 .Single();
 
-            var article = habrsParser.ParseRoot(update);
+            var article = tprogerParser.ParseRoot(update);
 
             await foreach (var a in article)
             {
