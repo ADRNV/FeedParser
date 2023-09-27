@@ -2,7 +2,6 @@
 using AngleSharp.Dom;
 using FeedParser.Core.Models;
 using Microsoft.Extensions.Logging;
-using System.Linq;
 
 namespace FeedParser.Parsers.TProger
 {
