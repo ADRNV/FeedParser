@@ -55,6 +55,19 @@ namespace FeedParser.Extensions
             return hostBuilder;
         }
 
+        public static IHostBuilder ConfigureParser<T>(this IHostBuilder hostBuilder, ParserBuilder parserBuilder) where T: ParserBase
+        {
+            hostBuilder.ConfigureServices(c =>
+            {
+                c.AddTransient<IParser, T>(c =>
+                {
+                    return parserBuilder.Build() as T;
+                });
+            });
+
+            return hostBuilder;
+        }
+
         public static IHostBuilder ConfigureScheduler(this IHostBuilder hostBuilder)
         {
             hostBuilder.ConfigureServices(c =>
