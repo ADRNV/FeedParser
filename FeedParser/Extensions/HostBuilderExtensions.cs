@@ -90,5 +90,19 @@ namespace FeedParser.Extensions
 
             return hostBuilder;
         }
+
+        public static IHostBuilder ConfigureScheduler(this IHostBuilder hostBuilder, IUpdateHandler<IEnumerable<Article>> updateHandler, SchedulerOptions schedulerOptions)
+        {
+            hostBuilder.ConfigureServices(c =>
+            {
+                c.AddTransient<IUpdateHandler<IEnumerable<Article>>>(c => updateHandler);
+
+                c.AddSingleton<SchedulerOptions>(i => schedulerOptions);
+
+                c.AddHostedService<UpdateScheduler>();
+            });
+
+            return hostBuilder;
+        }
     }
 }

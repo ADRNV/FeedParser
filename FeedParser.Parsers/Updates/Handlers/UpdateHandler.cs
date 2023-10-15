@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 
 namespace FeedParser.Parsers.Updates.Handlers
 {
-    public class UpdateHandler : IUpdateHandler<IEnumerable<Article>>
+    public class UpdateHandler : UpdateHandlerBase<IEnumerable<Article>>
     {
         private IEnumerable<IParser> _parsers;
 
@@ -18,7 +18,7 @@ namespace FeedParser.Parsers.Updates.Handlers
             _logger = logger;
         }
 
-        public async Task OnUpdate(IEnumerable<Article> update)
+        public override async Task OnUpdate(IEnumerable<Article> update)
         {
             var tprogerParser = _parsers.OfType<TProgerParser>()
                 .Single();
