@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FeedParser.Core", "FeedPars
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FeedParser.Parsers", "FeedParser.Parsers\FeedParser.Parsers.csproj", "{37D76802-B073-4486-A5A7-67E44300DD82}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FeedParser.Data", "FeedParser.Data\FeedParser.Data.csproj", "{5EB4EE8B-A514-46B7-A9E2-1C717B1725FC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FeedParser.Data", "FeedParser.Data\FeedParser.Data.csproj", "{5EB4EE8B-A514-46B7-A9E2-1C717B1725FC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{86EB9156-27B4-496F-9C21-2F4D99979759}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

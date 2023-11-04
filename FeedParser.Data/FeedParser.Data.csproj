@@ -4,6 +4,13 @@
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <Title>FeedParser.Data</Title>
+    <Description>Cantains works with data and models
+</Description>
+    <PackageProjectUrl>https://github.com/ADRNV/FeedParser</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/ADRNV/FeedParser</RepositoryUrl>
+    <PackageLicenseExpression>0BSD</PackageLicenseExpression>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>

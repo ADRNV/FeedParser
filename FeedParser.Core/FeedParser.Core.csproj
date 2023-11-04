@@ -1,9 +1,17 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <Title>FeedParser.Core</Title>
+    <Description>Basics interfaces and models for parsing</Description>
+    <Copyright>MIT Licence</Copyright>
+    <PackageProjectUrl>https://github.com/ADRNV/FeedParser</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/ADRNV/FeedParser</RepositoryUrl>
+    <PackageLicenseExpression>0BSD</PackageLicenseExpression>
+    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
 
 </Project>
